@@ -1,10 +1,8 @@
-# Front-ArgPrograma-TASKAPP
-
-## Live on vercel! 👉 https://front-taskapp-argprograma-react.vercel.app/ 👈
+# template-food-ecommerce-frontend
 
 ### Pasos para ejecutar
 
-- Primero debe estar corriendo el back: https://github.com/BrendaMollaret/Back-ArgPrograma-TASKAPP
+- Primero debe estar corriendo el back: https://github.com/santillienzo/template-food-ecommerce-backend
   
 - Segundo debemos instalar las dependencias con: npm install
   - Dependencias utilizadas en esta aplicación:
