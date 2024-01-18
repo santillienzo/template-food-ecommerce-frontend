@@ -1,18 +1,24 @@
 import { Link } from "react-router-dom";
 import { Task } from "../../types/Task";
+import categories from "../../utils/categories.utils";
 
+type Props = { 
+  tasks: Task[]
+}
 
-const CategoriasTareas = ({ tasks }: { tasks: Task[] }) => {
-  const categorias = ['PORHACER', 'ENPRODUCCION', 'PORTESTEAR', 'COMPLETADA'];
+const CategoriasTareas = ({ tasks }: Props ) => {
+
 
   return (
     <section className="container-fluid mt-5" id="categorias">
-      {categorias.map((categoria, index) => (
-        <section className="text-center mb-5" key={index}>
-          <h3 className="display-6">{categoria}</h3>
+      {categories.map((category, index) => {
+        const {beautifulName, name} = category
+        return (
+          <section className="text-center mb-5" key={index}>
+          <h3 className="display-6">{beautifulName}</h3>
           <div className="row row-cols-1 row-cols-md-2 row-cols-xl-4 justify-content-center g-4">
             {tasks
-              .filter(task => task.estado === categoria.toUpperCase()) // Filtra las tareas por categoría
+              .filter(task => task.estado === name.toUpperCase()) // Filtra las tareas por categoría
               .map(task => (
                 <div className="col" key={task.id}>
                   <div className="card h-100">
@@ -44,7 +50,8 @@ const CategoriasTareas = ({ tasks }: { tasks: Task[] }) => {
               ))}
           </div>
         </section>
-      ))}
+        )
+      })}
     </section>
   );
 };

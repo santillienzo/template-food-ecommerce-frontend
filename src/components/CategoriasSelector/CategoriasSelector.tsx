@@ -1,39 +1,34 @@
 import React from 'react';
 import style from './CategoriasSelector.module.css'
-import langostino from '../../assets/categories/langostino.png'
-import maceta from '../../assets/categories/maceta.png'
-import pizza from '../../assets/categories/pizza.png'
-import soda from '../../assets/categories/soda.png'
+import categories from '../../utils/categories.utils';
+
 
 interface CategoriasSelectorProps {
   onSelectCategory: (categoria: string) => void;
 }
 
 const CategoriasSelector: React.FC<CategoriasSelectorProps> = ({ onSelectCategory }) => {
-  const categorias = [
-    { description: 'Pizzas tradicionales', icono: pizza, name: "PIZZA_TRAD" },
-    { description: 'Pizzas de mar', icono: langostino,  name: "PIZZA_MAR"},
-    { description: 'Pizzas vegetarianas', icono: maceta, name: "PIZZA_VEG"},
-    { description: 'Bebidas', icono: soda, name: "BEBIDA" }
-  ];
 
   return (
     <section className="container mt-3" id="selector-categorias">
       <div className="d-flex gap-5 justify-content-between">
-        {categorias.map((categoria, index) => (
-          <div
-            key={index}
-            onClick={() => onSelectCategory(categoria.name)}
-            className={`${style.selector}`}
-          >
-            <div className={`${style.selectorIcon}`}>
-              <img src={categoria.icono} alt="" />
-            </div>
-            <div className={`${style.selectorText}`}>
-              <span>{categoria.description}</span>
-            </div>
+        {categories.map((category, index) => {
+          const {name, beautifulName, icon} = category
+          return (
+            <div
+              key={index}
+              onClick={() => onSelectCategory(name)}
+              className={`${style.selector}`}
+            >
+              <div className={`${style.selectorIcon}`}>
+                <img src={icon} alt="" />
+              </div>
+              <div className={`${style.selectorText}`}>
+                <span>{beautifulName}</span>
+              </div>
           </div>
-        ))}
+          )
+        })}
       </div>
     </section>
   );
