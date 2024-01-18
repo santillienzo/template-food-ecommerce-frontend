@@ -1,5 +1,9 @@
 import React from 'react';
-import { BsCheck, BsGear, BsPencilSquare, BsBookmarkCheck } from 'react-icons/bs';
+import style from './CategoriasSelector.module.css'
+import langostino from '../../assets/categories/langostino.png'
+import maceta from '../../assets/categories/maceta.png'
+import pizza from '../../assets/categories/pizza.png'
+import soda from '../../assets/categories/soda.png'
 
 interface CategoriasSelectorProps {
   onSelectCategory: (categoria: string) => void;
@@ -7,25 +11,27 @@ interface CategoriasSelectorProps {
 
 const CategoriasSelector: React.FC<CategoriasSelectorProps> = ({ onSelectCategory }) => {
   const categorias = [
-    { nombre: 'PORHACER', icono: <BsCheck /> },
-    { nombre: 'ENPRODUCCION', icono: <BsGear /> },
-    { nombre: 'PORTESTEAR', icono: <BsPencilSquare /> },
-    { nombre: 'COMPLETADA', icono: <BsBookmarkCheck /> }
+    { nombre: 'Pizzas tradicionales', icono: pizza },
+    { nombre: 'Pizzas de mar', icono: langostino },
+    { nombre: 'Pizzas vegetarianas', icono: maceta },
+    { nombre: 'Bebidas', icono: soda }
   ];
 
   return (
     <section className="container mt-3" id="selector-categorias">
-      <p className="fs-3">Seleccione una categoría</p>
-      <div className="row gap-4">
+      <div className="d-flex gap-5 justify-content-between">
         {categorias.map((categoria, index) => (
-          <div className="col d-flex justify-content-center p-0" key={index}>
-            <button
-              onClick={() => onSelectCategory(categoria.nombre)}
-              className="border border-1 border-black d-flex gap-1 align-items-center rounded p-1 text-decoration-none"
-              style={{ cursor: 'pointer' }}
-            >
-              {categoria.icono} {categoria.nombre}
-            </button>
+          <div
+            key={index}
+            onClick={() => onSelectCategory(categoria.nombre)}
+            className={`${style.selector}`}
+          >
+            <div className={`${style.selectorIcon}`}>
+              <img src={categoria.icono} alt="" />
+            </div>
+            <div className={`${style.selectorText}`}>
+              <span>{categoria.nombre}</span>
+            </div>
           </div>
         ))}
       </div>

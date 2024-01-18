@@ -1,0 +1,29 @@
+.selector{
+    position: relative;
+    /* background-color: red; */
+    max-width: 100px;
+    cursor: pointer;
+}
+
+.selectorIcon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: green; */
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin: auto;
+    border: 1px solid #eee;
+    box-shadow: 0px 0px 71px 0px rgba(0,0,0,0.1);
+}
+
+.selectorIcon img{
+    width: 30px;
+    /* background-color: greenyellow; */
+}
+
+.selectorText{
+    margin-top: 5px;
+    text-align: center;
+}
