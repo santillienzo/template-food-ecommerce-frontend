@@ -11,10 +11,10 @@ interface CategoriasSelectorProps {
 
 const CategoriasSelector: React.FC<CategoriasSelectorProps> = ({ onSelectCategory }) => {
   const categorias = [
-    { nombre: 'Pizzas tradicionales', icono: pizza },
-    { nombre: 'Pizzas de mar', icono: langostino },
-    { nombre: 'Pizzas vegetarianas', icono: maceta },
-    { nombre: 'Bebidas', icono: soda }
+    { description: 'Pizzas tradicionales', icono: pizza, name: "PIZZA_TRAD" },
+    { description: 'Pizzas de mar', icono: langostino,  name: "PIZZA_MAR"},
+    { description: 'Pizzas vegetarianas', icono: maceta, name: "PIZZA_VEG"},
+    { description: 'Bebidas', icono: soda, name: "BEBIDA" }
   ];
 
   return (
@@ -23,14 +23,14 @@ const CategoriasSelector: React.FC<CategoriasSelectorProps> = ({ onSelectCategor
         {categorias.map((categoria, index) => (
           <div
             key={index}
-            onClick={() => onSelectCategory(categoria.nombre)}
+            onClick={() => onSelectCategory(categoria.name)}
             className={`${style.selector}`}
           >
             <div className={`${style.selectorIcon}`}>
               <img src={categoria.icono} alt="" />
             </div>
             <div className={`${style.selectorText}`}>
-              <span>{categoria.nombre}</span>
+              <span>{categoria.description}</span>
             </div>
           </div>
         ))}
