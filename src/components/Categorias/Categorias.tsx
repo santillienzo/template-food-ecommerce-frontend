@@ -6,27 +6,27 @@ import CategoriasSelector from '../CategoriasSelector/CategoriasSelector';
 import CategoriasTareas from '../CategoriasTareas/CategoriasTareas';
 
 const Categorias = () => {
-  const [tasks, setTasks] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>(''); // Estado para la categoría seleccionada
 
   useEffect(() => {
-    const fetchTasks = async () => {
-      const tasksData = await ProductService.getAllProducts();
-      setTasks(tasksData);
+    const fetchProducts = async () => {
+      const productsData = await ProductService.getAllProducts();
+      setProducts(productsData);
     };
 
-    fetchTasks();
+    fetchProducts();
   }, []);
 
   // Filtra las tareas por la categoría seleccionada
-  const filteredTasks = selectedCategory
-    ? tasks.filter(task => task.category.toUpperCase() === selectedCategory.toUpperCase())
-    : tasks;
+  const filtereProducts = selectedCategory
+    ? products.filter(product => product.category === selectedCategory)
+    : products;
 
   return (
     <div className="container mt-5">
       <CategoriasSelector onSelectCategory={setSelectedCategory} /> {/* Pasa la función para manejar la selección de categoría */}
-      <CategoriasTareas product={filteredTasks} /> {/* Pasa las tareas filtradas al componente CategoriasTareas */}
+      <CategoriasTareas products={filtereProducts} /> {/* Pasa las tareas filtradas al componente CategoriasTareas */}
     </div>
   );
 };
