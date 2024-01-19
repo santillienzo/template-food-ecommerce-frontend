@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap"
 import { Basket, Person } from "react-bootstrap-icons"
 import { useNavigate } from "react-router-dom";
-import { TaskService } from "../../services/TaskService";
-import { Task } from "../../types/Task";
+import { ProductService } from "../../services/ProductService";
+import { Product } from "../../types/Product";
 import { toast } from "react-toastify";
 import ModalAgregarTarea from "../ModalAgregarTarea/ModalAgregarTarea";
 
@@ -21,9 +21,9 @@ const NavBar = () => {
   };
 
       //Agregar nueva tarea
-const createTask = async (newTask: Task) => {
+const createTask = async (newTask: Product) => {
   try {
-    const result = await TaskService.createTask(newTask);
+    const result = await ProductService.createTask(newTask);
     console.log('Nuevo producto agregada:', result.id);
     navigate(`/detalle/${result.id}`); //Ir al detalle de el producto creada
 

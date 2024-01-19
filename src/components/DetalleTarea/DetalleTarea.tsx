@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { TaskService } from '../../services/TaskService';
-import { Task } from '../../types/Task';
+import { ProductService } from '../../services/ProductService';
+import { Product } from '../../types/Product';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -10,9 +10,9 @@ import { Button } from 'react-bootstrap';
 
 const DetalleTarea = () => {
   const { taskId } = useParams<{ taskId?: string }>();
-  const [task, setTask] = useState<Task | null>(null);
+  const [task, setTask] = useState<Product | null>(null);
   const [estado, setEstado] = useState<string>('');
-  const [relatedTasks, setRelatedTasks] = useState<Task[]>([]);
+  const [relatedTasks, setRelatedTasks] = useState<Product[]>([]);
 
   const navigate = useNavigate(); //Redirigir al usuario a la pagina principal
 
@@ -22,10 +22,10 @@ const DetalleTarea = () => {
     const fetchTask = async () => {
       try {
         if (taskId && !isNaN(parseInt(taskId, 10))) {
-          const taskData = await TaskService.getOneTask(parseInt(taskId, 10));
+          const taskData = await ProductService.getOneProduct(parseInt(taskId, 10));
           setTask(taskData);
 
-          const tasksInCategory = await TaskService.getTasksInCategory(taskData.estado);
+          const tasksInCategory = await ProductService.getProductInCategory(taskData.category);
           setRelatedTasks(tasksInCategory);
         } else {
           console.error('Identificador de tarea no válido');
@@ -44,7 +44,7 @@ const DetalleTarea = () => {
   const handleUpdateState = async () => {
     if (estado !== '') {
       try {
-        const updatedTask = await TaskService.updateStateTask(parseInt(taskId!, 10), estado);
+        const updatedTask = await ProductService.updateStateTask(parseInt(taskId!, 10), estado);
         // Actualiza la tarea local con la tarea actualizada
         setTask(updatedTask);
         // Muestra una notificación de éxito utilizando react-toastify
@@ -76,7 +76,7 @@ const DetalleTarea = () => {
   const handleDeleteTask = async () => {
     try {
       if (taskId) {
-        await TaskService.deleteTask(parseInt(taskId, 10));
+        await ProductService.deleteProduct(parseInt(taskId, 10));
         toast.success('Tarea eliminada correctamente', {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 2000,
@@ -104,16 +104,16 @@ const DetalleTarea = () => {
       {task && (
         <div className="row">
           <div className="col-12 col-md-6">
-            <img className="card-img-top mb-5" src={task.imagen} alt={task.titulo} />
+            <img className="card-img-top mb-5" src={task.image} alt={task.name} />
           </div>
           <div className="col-12 col-md-6">
-            <h1 className="display-5 fw-bolder">Titulo: {task.titulo}</h1>
+            <h1 className="display-5 fw-bolder">Titulo: {task.name}</h1>
             <h3>Detalles de la tarea con ID: {taskId}</h3>
-            <h5>Estado actual: {task.estado}</h5>
+            <h5>Estado actual: {task.category}</h5>
             <p className="lead">Tiempo: {task.tiempo}</p>
             <p className="lead">Responsable: {task.responsable}</p>
             <p className="lead" id="producto-descripcion">
-              Descripción: {task.descripcion}
+              Descripción: {task.description}
             </p>
             <select className="form-select mb-3" onChange={(e) => setEstado(e.target.value)} value={estado}>
               <option value="">Seleccionar estado</option>
@@ -137,9 +137,9 @@ const DetalleTarea = () => {
         {relatedTasks.map((relatedTask) => (
           <div className="col-12 col-md-4 mb-4" key={relatedTask.id}>
             <div className="card">
-              <img className="card-img-top" src={relatedTask.imagen} alt={relatedTask.titulo} />
+              <img className="card-img-top" src={relatedTask.image} alt={relatedTask.name} />
               <div className="card-body">
-                <h5 className="card-title">{relatedTask.titulo}</h5>
+                <h5 className="card-title">{relatedTask.name}</h5>
                 <p className="card-text">Tiempo: {relatedTask.tiempo}</p>
                 <p className="card-text">Responsable: {relatedTask.responsable}</p>
                 
