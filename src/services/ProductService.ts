@@ -1,7 +1,7 @@
 import { Product } from '../types/Product';
 
-// const BASE_URL = 'https://back-taskapp.onrender.com/tasks';
-const BASE_URL = 'http://localhost:3000/products';
+const BASE_URL = 'https://template-food-ecommerce-backend.onrender.com/products';
+// const BASE_URL = 'http://localhost:3000/products';
 
 export const ProductService = {
   
