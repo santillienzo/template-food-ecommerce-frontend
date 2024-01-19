@@ -21,10 +21,9 @@ const NavBar = () => {
   };
 
       //Agregar nueva tarea
-const createTask = async (newTask: Product) => {
+const createTask = async (newProduct: Product) => {
   try {
-    const result = await ProductService.createTask(newTask);
-    console.log('Nuevo producto agregada:', result.id);
+    const result = await ProductService.createTask(newProduct);
     navigate(`/detalle/${result.id}`); //Ir al detalle de el producto creada
 
     // Muestra una notificación de éxito utilizando react-toastify

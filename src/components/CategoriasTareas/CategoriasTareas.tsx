@@ -8,7 +8,6 @@ type Props = {
 
 const CategoriasTareas = ({ products }: Props ) => {
 
-  console.log(products)
   return (
     <section className="container-fluid mt-5" id="categorias">
       {categories.map((category, index) => {

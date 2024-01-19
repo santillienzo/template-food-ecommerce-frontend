@@ -7,7 +7,7 @@ const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/detalle/:taskId" element={<DetalleTarea />} />
+      <Route path="/detalle/:productId" element={<DetalleTarea />} />
     </Routes>
   );
 };
