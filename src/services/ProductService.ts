@@ -1,39 +1,40 @@
-import { Task } from '../types/Task';
+import { Product } from '../types/Product';
 
-const BASE_URL = 'https://back-taskapp.onrender.com/tasks';
+// const BASE_URL = 'https://back-taskapp.onrender.com/tasks';
+const BASE_URL = 'http://localhost:3000/products';
 
-export const TaskService = {
+export const ProductService = {
   
     // Obtener todas las tareas
-    getAllTasks: async (): Promise<Task[]> => {
+    getAllProducts: async (): Promise<Product[]> => {
         const response = await fetch(`${BASE_URL}`);
         const data = await response.json();
         return data;
     },
 
     // Obtener una tarea
-    getOneTask: async (id: number): Promise<Task> => {
+    getOneProduct: async (id: number): Promise<Product> => {
         const response = await fetch(`${BASE_URL}/${id}`);
         const data = await response.json();
         return data;
     },
 
     // Obtener tareas en una categoria
-    getTasksInCategory: async (category: string): Promise<Task[]> => {
-        const response = await fetch(`${BASE_URL}?estado=${category}`);
+    getProductInCategory: async (category: string): Promise<Product[]> => {
+        const response = await fetch(`${BASE_URL}?category=${category}`);
         const data = await response.json();
         return data;
     },
 
     // Eliminar una tarea
-    deleteTask: async (id: number): Promise<void> => {
+    deleteProduct: async (id: number): Promise<void> => {
         await fetch(`${BASE_URL}/${id}`, {
           method: 'DELETE',
         });
     },
 
     // Usamos PATCH para actualizar solo un campo
-    updateStateTask: async (id: number, newState: string): Promise<Task> => {
+    updateStateTask: async (id: number, newState: string): Promise<Product> => {
         return fetch(`${BASE_URL}/${id}`, {
             method: 'PATCH',
             headers: {
@@ -51,7 +52,7 @@ export const TaskService = {
     },
 
 
-  createTask: async (task : Task):Promise<Task> => {
+  createTask: async (task : Product):Promise<Product> => {
 
     const response = await fetch(`${BASE_URL}`, {
         method: "POST",

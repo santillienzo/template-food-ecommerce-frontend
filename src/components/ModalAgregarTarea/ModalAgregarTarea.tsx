@@ -2,13 +2,13 @@
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Task } from '../../types/Task';
+import { Product } from '../../types/Product';
 
 
 type ModalAgregarTareaProps = {
   showModal: boolean;
   handleClose: () => void;
-  createTask: (newTask: Task) => void;
+  createTask: (newTask: Product) => void;
 };
 
 const ModalAgregarTarea: React.FC<ModalAgregarTareaProps> = ({ showModal, handleClose, createTask }) => {
