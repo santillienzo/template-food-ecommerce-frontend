@@ -34,14 +34,14 @@ export const ProductService = {
     },
 
     // Usamos PATCH para actualizar solo un campo
-    updateStateTask: async (id: number, newState: string): Promise<Product> => {
+    updateStateTask: async (id: number, newCategory: string): Promise<Product> => {
         return fetch(`${BASE_URL}/${id}`, {
             method: 'PATCH',
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                estado: newState
+                category: newCategory
             })
         })
         .then(res => res.json())
@@ -52,14 +52,14 @@ export const ProductService = {
     },
 
 
-  createTask: async (task : Product):Promise<Product> => {
+  createTask: async (Product : Product):Promise<Product> => {
 
     const response = await fetch(`${BASE_URL}`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(task)
+        body: JSON.stringify(Product)
     });
 
     const data = await response.json();

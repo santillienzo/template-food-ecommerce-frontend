@@ -3,6 +3,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Product } from '../../types/Product';
+import categories from '../../utils/categories.utils';
 
 
 type ModalAgregarTareaProps = {
@@ -14,32 +15,23 @@ type ModalAgregarTareaProps = {
 const ModalAgregarTarea: React.FC<ModalAgregarTareaProps> = ({ showModal, handleClose, createTask }) => {
   
   const validationSchema = Yup.object({
-    titulo: Yup.string().required('Este campo es obligatorio'),
-    descripcion: Yup.string().required('Este campo es obligatorio'),
-    tiempo: Yup.number().required('Este campo es obligatorio').integer('El tiempo debe ser en números').positive('El tiempo debe ser mayor a 0'),
-    imagen: Yup.string().required('Este campo es obligatorio'),
-    responsable: Yup.string().required('Este campo es obligatorio'),
-    estado: Yup.string().required('Este campo es obligatorio'),
+    name: Yup.string().required('Este campo es obligatorio'),
+    description: Yup.string().required('Este campo es obligatorio'),
+    image: Yup.string().required('Este campo es obligatorio'),
+    category: Yup.string().required('Este campo es obligatorio'),
   });
 
   const formik = useFormik({
     initialValues: {
-      titulo: '',
-      descripcion: '',
-      tiempo: 0,
-      imagen: '',
-      responsable: '',
-      estado: '',
+      name: '',
+      description: '',
+      image: '',
+      category: '',
     },
 
     validationSchema: validationSchema,
 
     onSubmit: async (values) => {
-      values.estado = values.estado.toUpperCase(); // Convierte el estado a mayúsculas
-      //console.log('Datos del formulario:', values); // Agrega esta línea para verificar los datos del formulario
-      console.log('Datos del formulario:', JSON.stringify(values));
-
-      values.estado = values.estado.toUpperCase();
       
       // Llama a la función para agregar la nueva tarea
       await createTask(values);
@@ -61,121 +53,85 @@ const ModalAgregarTarea: React.FC<ModalAgregarTareaProps> = ({ showModal, handle
         
         {/* ----- Titulo ----- */}
           <div className="mb-3 mt-1">
-              <label htmlFor="titulo" className="form-label"> Título </label>
+              <label htmlFor="name" className="form-label"> Título </label>
               <input
               type="text"
               className="form-control"
-              id="titulo"
-              name="titulo"
+              id="name"
+              name="name"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.titulo}
+              value={formik.values.name}
               />
 
-              {formik.touched.titulo && formik.errors.titulo ? (
-                <div className="text-danger"> {formik.errors.titulo} </div>
+              {formik.touched.name && formik.errors.name ? (
+                <div className="text-danger"> {formik.errors.name} </div>
               ) : null} 
 
             </div>
 
         {/* ----- Descripción ----- */}
           <div className="mb-3 mt-3">
-            <label htmlFor="descripcion" className="form-label"> Descripción </label>
+            <label htmlFor="description" className="form-label"> Descripción </label>
             <textarea
               className="form-control"
-              id="descripcion"
-              name="descripcion"
+              id="description"
+              name="description"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.descripcion}
+              value={formik.values.description}
               rows={3} // Número de filas
               cols={50} // Número de columnas
             />
 
-            {formik.touched.descripcion && formik.errors.descripcion ? (
-              <div className="text-danger"> {formik.errors.descripcion} </div>
+            {formik.touched.description && formik.errors.description ? (
+              <div className="text-danger"> {formik.errors.description} </div>
             ) : null} 
           </div>
-
-
-        {/* ----- Tiempo ----- */}
-        <div className="mb-3 mt-3">
-              <label htmlFor="tiempo" className="form-label"> Tiempo </label>
-              <input
-              placeholder='Ej: 30 días'
-              type="number"
-              className="form-control"
-              id="tiempo"
-              name="tiempo"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.tiempo}
-              />
-
-              {formik.touched.tiempo && formik.errors.tiempo ? (
-                <div className="text-danger"> {formik.errors.tiempo} </div>
-              ) : null} 
-
-            </div>
         
         {/* ----- Imagen ----- */}
         <div className="mb-3 mt-3">
-              <label htmlFor="imagen" className="form-label"> Imagen </label>
+              <label htmlFor="image" className="form-label"> Imagen </label>
               <input
               type="text"
               className="form-control"
-              id="imagen"
-              name="imagen"
+              id="image"
+              name="image"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.imagen}
+              value={formik.values.image}
               />
 
-              {formik.touched.imagen && formik.errors.imagen ? (
-                <div className="text-danger"> {formik.errors.imagen} </div>
-              ) : null} 
-
-            </div>
-
-        {/* ----- Responsable ----- */}
-        <div className="mb-3 mt-3">
-              <label htmlFor="responsable" className="form-label"> Responsable </label>
-              <input
-              type="text"
-              className="form-control"
-              id="responsable"
-              name="responsable"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.responsable}
-              />
-
-              {formik.touched.responsable && formik.errors.responsable ? (
-                <div className="text-danger"> {formik.errors.responsable} </div>
+              {formik.touched.image && formik.errors.image ? (
+                <div className="text-danger"> {formik.errors.image} </div>
               ) : null} 
 
             </div>
 
         {/* ----- Estado ----- */}
         <div className="mb-3 mt-3">
-              <label htmlFor="estado" className="form-label"> Estado </label>
+              <label htmlFor="category" className="form-label"> Estado </label>
 
               <Form.Select
-              id="estado"
-              name="estado"
+              id="category"
+              name="category"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.estado}
+              value={formik.values.category}
               >
-              <option value="">Selecciona un estado</option>
-              <option value="PORHACER">Por hacer</option>
-              <option value="ENPRODUCCION">En producción</option>
-              <option value="PORTESTEAR">Por testear</option>
-              <option value="COMPLETADA">Completada</option>
+              <option value="">Selecciona una categoría</option>
+              {
+                categories.map((category, index)=> {
+                  const {name, beautifulName} = category
+                  return (
+                      <option key={index} value={name}>{beautifulName}</option>
+                  )
+                })
+              }
               </Form.Select>
 
-              {formik.touched.estado && formik.errors.estado ? (
-                <div className="text-danger"> {formik.errors.estado} </div>
+              {formik.touched.category && formik.errors.category ? (
+                <div className="text-danger"> {formik.errors.category} </div>
               ) : null} 
 
             </div>

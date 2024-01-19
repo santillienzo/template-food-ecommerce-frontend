@@ -7,26 +7,26 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { useNavigate } from 'react-router-dom'; //Redirigir al usuario a la pagina principal
 import { Button } from 'react-bootstrap';
+import categories from '../../utils/categories.utils';
 
 const DetalleTarea = () => {
-  const { taskId } = useParams<{ taskId?: string }>();
-  const [task, setTask] = useState<Product | null>(null);
-  const [estado, setEstado] = useState<string>('');
-  const [relatedTasks, setRelatedTasks] = useState<Product[]>([]);
+  const { productId } = useParams<{ productId?: string }>();
+  const [product, setProduct] = useState<Product | null>(null);
+  const [category, setCategory] = useState<string>('');
+  const [relatedProduct, setRelatedProduct] = useState<Product[]>([]);
 
   const navigate = useNavigate(); //Redirigir al usuario a la pagina principal
-
   useEffect(() => {
 
     //---------- OBTENER UNA TAREA ----------
     const fetchTask = async () => {
       try {
-        if (taskId && !isNaN(parseInt(taskId, 10))) {
-          const taskData = await ProductService.getOneProduct(parseInt(taskId, 10));
-          setTask(taskData);
+        if (productId && !isNaN(parseInt(productId, 10))) {
+          const productData = await ProductService.getOneProduct(parseInt(productId, 10));
+          setProduct(productData);
 
-          const tasksInCategory = await ProductService.getProductInCategory(taskData.category);
-          setRelatedTasks(tasksInCategory);
+          const ProductInCategory = await ProductService.getProductInCategory(productData.category);
+          setRelatedProduct(ProductInCategory);
         } else {
           console.error('Identificador de tarea no válido');
         }
@@ -36,17 +36,17 @@ const DetalleTarea = () => {
     };
 
     fetchTask();
-  }, [taskId]);
+  }, [productId]);
 
 
   //--------- CAMBIAR ESTADO A UNA TAREA --------
 
   const handleUpdateState = async () => {
-    if (estado !== '') {
+    if (category !== '') {
       try {
-        const updatedTask = await ProductService.updateStateTask(parseInt(taskId!, 10), estado);
+        const updatedTask = await ProductService.updateStateTask(parseInt(productId!, 10), category);
         // Actualiza la tarea local con la tarea actualizada
-        setTask(updatedTask);
+        setProduct(updatedTask);
         // Muestra una notificación de éxito utilizando react-toastify
         toast.success('Estado de la tarea actualizado correctamente', {
           position: toast.POSITION.TOP_RIGHT,
@@ -75,8 +75,8 @@ const DetalleTarea = () => {
   
   const handleDeleteTask = async () => {
     try {
-      if (taskId) {
-        await ProductService.deleteProduct(parseInt(taskId, 10));
+      if (productId) {
+        await ProductService.deleteProduct(parseInt(productId, 10));
         toast.success('Tarea eliminada correctamente', {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 2000,
@@ -101,47 +101,50 @@ const DetalleTarea = () => {
 
   return (
     <div className="container mt-5">
-      {task && (
+      {product && (
         <div className="row">
           <div className="col-12 col-md-6">
-            <img className="card-img-top mb-5" src={task.image} alt={task.name} />
+            <img className="card-img-top mb-5" src={product.image} alt={product.name} />
           </div>
           <div className="col-12 col-md-6">
-            <h1 className="display-5 fw-bolder">Titulo: {task.name}</h1>
-            <h3>Detalles de la tarea con ID: {taskId}</h3>
-            <h5>Estado actual: {task.category}</h5>
-            <p className="lead">Tiempo: {task.tiempo}</p>
-            <p className="lead">Responsable: {task.responsable}</p>
+            <h1 className="display-5 fw-bolder">{product.name}</h1>
+            <h5>
+              {
+                categories.find((category)=> category.name === product.category)?.beautifulName
+              }
+            </h5>
             <p className="lead" id="producto-descripcion">
-              Descripción: {task.description}
+              Descripción: {product.description}
             </p>
-            <select className="form-select mb-3" onChange={(e) => setEstado(e.target.value)} value={estado}>
-              <option value="">Seleccionar estado</option>
-              <option value="PORHACER">Por hacer</option>
-              <option value="ENPRODUCCION">En producción</option>
-              <option value="PORTESTEAR">Por testear</option>
-              <option value="COMPLETADA">Completada</option>
+            <select className="form-select mb-3" onChange={(e) => setCategory(e.target.value)} value={category}>
+              <option value="">Seleccionar categoría</option>
+              {
+                categories.map((category, index)=> {
+                  const {name, beautifulName} = category
+                  return (
+                      <option key={index} value={name}>{beautifulName}</option>
+                  )
+                })
+              }
             </select>
 
             <button className="btn btn-danger" onClick={handleDeleteTask}>
-              Eliminar Tarea
+              Eliminar producto
             </button>
             <button className="btn btn-primary ms-2" onClick={handleUpdateState}>
-              Actualizar Estado
+              Actualizar categoría
             </button>
           </div>
         </div>
       )}
 
       <div className="row mt-5">
-        {relatedTasks.map((relatedTask) => (
+        {relatedProduct.map((relatedTask) => (
           <div className="col-12 col-md-4 mb-4" key={relatedTask.id}>
             <div className="card">
               <img className="card-img-top" src={relatedTask.image} alt={relatedTask.name} />
               <div className="card-body">
                 <h5 className="card-title">{relatedTask.name}</h5>
-                <p className="card-text">Tiempo: {relatedTask.tiempo}</p>
-                <p className="card-text">Responsable: {relatedTask.responsable}</p>
                 
                 <Button variant="primary" onClick={() => navigate(`/detalle/${relatedTask.id}`)}>
                   Ver más
